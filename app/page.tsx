@@ -1,7 +1,24 @@
 import ReviewGrid from "@/components/ReviewGrid";
 import { reviews } from "@/data/reviews";
+import { generateAiReviews } from "@/lib/gemini";
+import type { ResolvedReview } from "@/data/reviews";
 
-export default function Page() {
+// ISR: regenerate this page in the background every 45 minutes.
+// Vercel/serverless serves the cached version instantly to every visitor;
+// no cold-start or in-memory cache problem.
+export const revalidate = 2700;
+
+export default async function Page() {
+  // Generate 15 AI reviews server-side; all 15 are baked into the cached HTML.
+  // Client-side picks 4 randomly, so each visitor sees a different set.
+  // On failure, aiReviews is empty and ReviewGrid falls back to static reviews.
+  let aiReviews: ResolvedReview[] = [];
+  try {
+    aiReviews = await generateAiReviews();
+  } catch {
+    // fallback handled in ReviewGrid
+  }
+
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
@@ -49,7 +66,7 @@ export default function Page() {
         </div>
 
         {/* Review grid */}
-        <ReviewGrid reviews={reviews} />
+        <ReviewGrid reviews={reviews} aiReviews={aiReviews} />
 
         {/* Footer */}
         <p className="text-center text-gray-400 text-xs mt-10 pb-8">

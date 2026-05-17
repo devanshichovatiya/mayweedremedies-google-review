@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import ReviewCard from "./ReviewCard";
 import type { Review, ResolvedReview } from "@/data/reviews";
 import { resolveVariant } from "@/data/reviews";
@@ -11,31 +11,55 @@ function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
-export default function ReviewGrid({ reviews }: { reviews: Review[] }) {
+type Props = {
+  reviews: Review[];        // 50 static reviews for the shuffle fallback deck
+  aiReviews: ResolvedReview[]; // 15 AI reviews baked in from the server (may be empty)
+};
+
+export default function ReviewGrid({ reviews, aiReviews }: Props) {
   const [shown, setShown] = useState<ResolvedReview[]>([]);
   const [animating, setAnimating] = useState(false);
-  const deckRef = useRef<Review[]>([]);
+
+  // Two decks: AI reviews first, then static reviews
+  const aiDeckRef = useRef<ResolvedReview[]>([]);
+  const staticDeckRef = useRef<Review[]>([]);
 
   useEffect(() => {
-    const shuffled = shuffle(reviews);
-    setShown(shuffled.slice(0, SHOW_COUNT).map(resolveVariant));
-    deckRef.current = shuffled.slice(SHOW_COUNT);
-  }, [reviews]);
+    const shuffledAi = shuffle(aiReviews);
+    const shuffledStatic = shuffle(reviews);
+
+    // Show first 4 AI reviews (or static if no AI available)
+    if (shuffledAi.length >= SHOW_COUNT) {
+      setShown(shuffledAi.slice(0, SHOW_COUNT));
+      aiDeckRef.current = shuffledAi.slice(SHOW_COUNT);
+    } else {
+      setShown(shuffledStatic.slice(0, SHOW_COUNT).map(resolveVariant));
+      aiDeckRef.current = [];
+    }
+
+    staticDeckRef.current = shuffledStatic;
+  }, [aiReviews, reviews]);
 
   const handleShuffle = useCallback(() => {
     setAnimating(true);
     setTimeout(() => {
       setShown((prev) => {
-        let deck = deckRef.current;
+        // Drain AI deck first
+        if (aiDeckRef.current.length >= SHOW_COUNT) {
+          const next = aiDeckRef.current.slice(0, SHOW_COUNT);
+          aiDeckRef.current = aiDeckRef.current.slice(SHOW_COUNT);
+          return next;
+        }
 
+        // Fall through to static reviews
+        let deck = staticDeckRef.current;
         if (deck.length < SHOW_COUNT) {
           const visibleIds = new Set(prev.map((r) => r.id));
           const refill = shuffle(reviews.filter((r) => !visibleIds.has(r.id)));
           deck = [...deck, ...refill];
         }
-
         const next = deck.slice(0, SHOW_COUNT).map(resolveVariant);
-        deckRef.current = deck.slice(SHOW_COUNT);
+        staticDeckRef.current = deck.slice(SHOW_COUNT);
         return next;
       });
       setAnimating(false);
