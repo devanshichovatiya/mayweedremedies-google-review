@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# next.js canary auto-generated types (equivalent of next-env.d.ts for canary builds)
+/types/
