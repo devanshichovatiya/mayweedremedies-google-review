@@ -1,5 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import type { ResolvedReview } from "@/data/reviews";
+
+export type RawAiReview = {
+  stars: 4 | 5;
+  text: string;
+};
 
 const AI_COUNT = 15;
 
@@ -14,10 +18,10 @@ About the shop:
 
 Write exactly ${AI_COUNT} Google reviews in natural Indian English, as if real customers wrote them. Each review must be unique — different sentiment, different angle, different length. Return only a JSON array:
 [
-  { "id": 101, "stars": 5, "text": "..." },
-  { "id": 102, "stars": 5, "text": "..." },
-  { "id": 103, "stars": 4, "text": "..." },
-  ...up to id 115
+  { "stars": 5, "text": "..." },
+  { "stars": 5, "text": "..." },
+  { "stars": 4, "text": "..." },
+  ...
 ]
 
 Rules:
@@ -28,11 +32,10 @@ Rules:
 - No em dashes, no AI vocabulary (seamless, pivotal, delve, heartwarming, etc.)
 - Stars must be 4 or 5 only — roughly 12 fives and 3 fours
 - Mix of lengths: some 1 sentence, some 2-3 sentences, some 3-4 sentences
-- IDs must be exactly 101 through 115 in order
 
 Return only the JSON array, no explanation, no markdown code block.`;
 
-export async function generateAiReviews(): Promise<ResolvedReview[]> {
+export async function generateAiReviews(): Promise<RawAiReview[]> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error("GEMINI_API_KEY not set");
 
@@ -46,7 +49,7 @@ export async function generateAiReviews(): Promise<ResolvedReview[]> {
   });
 
   const result = await model.generateContent(PROMPT);
-  const parsed = JSON.parse(result.response.text().trim()) as ResolvedReview[];
+  const parsed = JSON.parse(result.response.text().trim()) as RawAiReview[];
 
   if (!Array.isArray(parsed) || parsed.length !== AI_COUNT) {
     throw new Error(`Expected ${AI_COUNT} reviews, got ${parsed.length}`);
@@ -54,7 +57,6 @@ export async function generateAiReviews(): Promise<ResolvedReview[]> {
 
   const valid = parsed.every(
     (r) =>
-      typeof r.id === "number" &&
       (r.stars === 4 || r.stars === 5) &&
       typeof r.text === "string" &&
       r.text.length > 0

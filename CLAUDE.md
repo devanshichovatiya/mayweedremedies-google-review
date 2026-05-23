@@ -72,12 +72,12 @@ The CID (`3724387094041692977`) is the decimal form of `0x33afae5452678b31` from
 ### Why this URL
 - The original `#lrd=...,3,,,,` Google Search URL works on desktop but on mobile Chrome the review popup does not trigger — users just see search results
 - The Maps CID URL opens the business listing directly; on Android it often opens the Google Maps app where "Write a review" is one tap away
-- The ideal URL is `https://g.page/r/XXXXX/review` from the Google Business Profile dashboard — this opens the write-review dialog directly on both mobile and desktop. **The client needs to get this from business.google.com → "Get more reviews" and provide it.**
+- The ideal URL is the short GBP review link from the Google Business Profile dashboard — this opens the write-review dialog directly on both mobile and desktop. **The client needs to get this from business.google.com → "Get more reviews" and provide it.**
 
 ### How to update the URL
 Once the client provides the GBP link, update `data/reviews.ts`:
 ```ts
-export const GOOGLE_REVIEW_URL = "https://g.page/r/XXXXX/review";
+export const GOOGLE_REVIEW_URL = "https://g.page/r/XXXXXXXXXX/review";
 ```
 
 ---
@@ -93,7 +93,3 @@ export const GOOGLE_REVIEW_URL = "https://g.page/r/XXXXX/review";
 | Wrong Google review URL | Original URL had `,1,` action (view reviews) not `,3,` (write review), also had expired `sxsrf` token | Used browser automation to discover `,3,` triggers the write-review dialog |
 
 ---
-
-## Pending
-
-- [ ] Get the `g.page/r/.../review` link from client's Google Business Profile dashboard and update `GOOGLE_REVIEW_URL` in `data/reviews.ts`

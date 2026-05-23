@@ -2,64 +2,57 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import ReviewCard from "./ReviewCard";
-import type { Review, ResolvedReview } from "@/data/reviews";
-import { resolveVariant } from "@/data/reviews";
+import type { ResolvedReview } from "@/data/reviews";
 
 const SHOW_COUNT = 4;
 
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
 type Props = {
-  reviews: Review[];        // 50 static reviews for the shuffle fallback deck
-  aiReviews: ResolvedReview[]; // 15 AI reviews baked in from the server (may be empty)
+  reviews: ResolvedReview[];
+  fetchError?: boolean;
 };
 
-export default function ReviewGrid({ reviews, aiReviews }: Props) {
+export default function ReviewGrid({ reviews, fetchError }: Props) {
   const [shown, setShown] = useState<ResolvedReview[]>([]);
   const [animating, setAnimating] = useState(false);
 
-  // Two decks: AI reviews first, then static reviews
-  const aiDeckRef = useRef<ResolvedReview[]>([]);
-  const staticDeckRef = useRef<Review[]>([]);
+  const deckRef = useRef<ResolvedReview[]>([]);
 
   useEffect(() => {
-    const shuffledAi = shuffle(aiReviews);
-    const shuffledStatic = shuffle(reviews);
+    // AI reviews (id >= 151): largest ID first (newest generated shown first).
+    // Static reviews (id < 151): smallest ID first (already interleaved by star rating).
+    const aiPool = reviews
+      .filter((r) => r.id >= 151)
+      .sort((a, b) => a.id - b.id);
+    const staticPool = reviews.filter((r) => r.id < 151);
 
-    // Show first 4 AI reviews (or static if no AI available)
-    if (shuffledAi.length >= SHOW_COUNT) {
-      setShown(shuffledAi.slice(0, SHOW_COUNT));
-      aiDeckRef.current = shuffledAi.slice(SHOW_COUNT);
-    } else {
-      setShown(shuffledStatic.slice(0, SHOW_COUNT).map(resolveVariant));
-      aiDeckRef.current = [];
-    }
+    const staticNeeded = Math.max(0, SHOW_COUNT - aiPool.length);
+    const initial = [...aiPool.slice(0, SHOW_COUNT), ...staticPool.slice(0, staticNeeded)];
 
-    staticDeckRef.current = shuffledStatic;
-  }, [aiReviews, reviews]);
+    const seen = new Set<number>();
+    setShown(initial.filter((r) => {
+      if (seen.has(r.id)) return false;
+      seen.add(r.id);
+      return true;
+    }));
+
+    deckRef.current = [...aiPool.slice(SHOW_COUNT), ...staticPool.slice(staticNeeded)];
+  }, [reviews]);
 
   const handleShuffle = useCallback(() => {
     setAnimating(true);
     setTimeout(() => {
       setShown((prev) => {
-        // Drain AI deck first
-        if (aiDeckRef.current.length >= SHOW_COUNT) {
-          const next = aiDeckRef.current.slice(0, SHOW_COUNT);
-          aiDeckRef.current = aiDeckRef.current.slice(SHOW_COUNT);
-          return next;
+        let deck = deckRef.current;
+
+        // When deck runs out, cycle back through static reviews (AI exhausted by then).
+        if (deck.length < SHOW_COUNT) {
+          const shownIds = new Set(prev.map((r) => r.id));
+          const remaining = reviews.filter((r) => r.id < 151 && !shownIds.has(r.id));
+          deck = [...deck, ...remaining];
         }
 
-        // Fall through to static reviews
-        let deck = staticDeckRef.current;
-        if (deck.length < SHOW_COUNT) {
-          const visibleIds = new Set(prev.map((r) => r.id));
-          const refill = shuffle(reviews.filter((r) => !visibleIds.has(r.id)));
-          deck = [...deck, ...refill];
-        }
-        const next = deck.slice(0, SHOW_COUNT).map(resolveVariant);
-        staticDeckRef.current = deck.slice(SHOW_COUNT);
+        const next = deck.slice(0, SHOW_COUNT);
+        deckRef.current = deck.slice(SHOW_COUNT);
         return next;
       });
       setAnimating(false);
@@ -70,6 +63,12 @@ export default function ReviewGrid({ reviews, aiReviews }: Props) {
 
   return (
     <div>
+      {fetchError && (
+        <p className="text-xs text-amber-600 text-center mb-3">
+          Could not load AI reviews — showing static reviews only.
+        </p>
+      )}
+
       <div
         className={`grid grid-cols-1 sm:grid-cols-2 gap-4 transition-opacity duration-300 ${
           animating ? "opacity-0" : "opacity-100"
