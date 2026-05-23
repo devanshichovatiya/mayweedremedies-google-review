@@ -37,13 +37,6 @@ export default function ReviewCard({ review }: { review: ResolvedReview }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-5 flex flex-col gap-3 hover:shadow-lg transition-shadow duration-200">
-      {/* DEV: remove this badge before going live */}
-      <div className="flex items-center justify-between mb-1">
-        <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${review.id <= 150 ? "bg-blue-100 text-blue-600" : "bg-purple-100 text-purple-600"}`}>
-          {review.id <= 150 ? `static #${review.id}` : `ai #${review.id}`}
-        </span>
-      </div>
-
       <div className="flex items-center gap-1">
         {Array.from({ length: review.stars }).map((_, i) => (
           <svg

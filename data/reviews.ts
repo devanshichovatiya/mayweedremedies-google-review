@@ -8,7 +8,7 @@ export function getAllStaticReviews(): ResolvedReview[] {
   return reviews;
 }
 
-export const GOOGLE_REVIEW_URL = "https://g.page/r/XXXXXXXXXX/review";
+export const GOOGLE_REVIEW_URL = "https://g.page/r/CTGLZ1JUrq8zEAE/review";
 
 // 150 reviews ordered 3 × 5-star then 1 × 4-star, repeating.
 // IDs are sequential 1–150 matching array position.

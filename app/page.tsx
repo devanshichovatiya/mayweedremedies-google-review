@@ -7,7 +7,6 @@ import type { ResolvedReview } from "@/data/reviews";
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  // Fetch AI reviews from Redis cache; filter any that Redis already removed (marked used).
   let cachedAi: ResolvedReview[] = [];
   let fetchError = false;
   const redisConfigured =
@@ -22,10 +21,9 @@ export default async function Page() {
 
   const staticReviews = getAllStaticReviews();
 
-  // Always merge both pools — ReviewGrid shows AI first (id ≥ 151), then static (id 1–150).
+  // AI reviews first (id ≥ 151), then static (id 1–150).
   const merged = [...cachedAi, ...staticReviews];
-  // Deduplicate by ID — guards against Redis returning the same entry twice.
-    const seenIds = new Set<number>();
+  const seenIds = new Set<number>();
   const pool = merged.filter((r) => {
     if (seenIds.has(r.id)) return false;
     seenIds.add(r.id);
@@ -73,15 +71,6 @@ export default async function Page() {
               <p className="text-emerald-900 text-xs font-bold leading-tight">Paste &amp; Post ⭐</p>
             </div>
           </div>
-        </div>
-
-        {/* DEV DEBUG — remove before going live */}
-        <div className="mb-4 p-3 bg-gray-100 rounded-xl text-xs font-mono text-gray-600 space-y-1">
-          <p>redis configured: <strong>{String(redisConfigured)}</strong></p>
-          <p>fetch error: <strong>{String(fetchError)}</strong></p>
-          <p>ai reviews loaded: <strong>{cachedAi.length}</strong></p>
-          <p>static reviews: <strong>{staticReviews.length}</strong></p>
-          <p>total pool: <strong>{pool.length}</strong></p>
         </div>
 
         {isEmpty ? (
