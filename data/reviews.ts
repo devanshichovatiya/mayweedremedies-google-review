@@ -1,5 +1,5 @@
 export type ResolvedReview = {
-  id: number;   // 1–150 for static; 151+ for AI-generated
+  id: number;   // 1–200 for static; 201+ for AI-generated
   stars: 4 | 5;
   text: string;
 };
@@ -10,231 +10,207 @@ export function getAllStaticReviews(): ResolvedReview[] {
 
 export const GOOGLE_REVIEW_URL = "https://g.page/r/CTGLZ1JUrq8zEAE/review";
 
-// 150 reviews ordered 3 × 5-star then 1 × 4-star, repeating.
-// IDs are sequential 1–150 matching array position.
+// 200 reviews ordered 3 × 5-star then 1 × 4-star, repeating.
+// IDs are sequential 1–200 matching array position.
 export const reviews: ResolvedReview[] = [
-
-  // --- group 1 ---
-  { id: 1,   stars: 5, text: "Good shop. Been coming since 2 years. Always happy with the service." },
-  { id: 2,   stars: 5, text: "Coming here for about 2 years now. Always satisfied. Good place." },
-  { id: 3,   stars: 5, text: "Been a regular here for 2 years. Service is always good." },
-  { id: 4,   stars: 4, text: "Very helpful. No pressure to buy anything extra. Refreshing experience." },
-
-  // --- group 2 ---
-  { id: 5,   stars: 5, text: "Best homeopathy store near Gotri. Owner knows his subject very well." },
-  { id: 6,   stars: 5, text: "Best homeopathic shop in the Gotri area. Owner is very knowledgeable." },
-  { id: 7,   stars: 5, text: "One of the best shops near Gotri for homeopathic medicines. Owner knows his work." },
-  { id: 8,   stars: 4, text: "Helpful staff and no pressure at all. Good experience." },
-
-  // --- group 3 ---
-  { id: 9,   stars: 5, text: "Medicines always in stock here. Quick service also. No waiting." },
-  { id: 10,  stars: 5, text: "Stock is always available and service is fast. No unnecessary waiting." },
-  { id: 11,  stars: 5, text: "Fast service every time. Medicines always available. No issues at all." },
-  { id: 12,  stars: 4, text: "No one pushes you to buy extra here. Helpful and honest." },
-
-  // --- group 4 ---
-  { id: 13,  stars: 5, text: "Neat and clean shop. Owner explains properly before giving anything." },
-  { id: 14,  stars: 5, text: "Clean shop and owner always explains what the medicine is for." },
-  { id: 15,  stars: 5, text: "Nice and tidy store. Owner explains everything before giving medicine." },
-  { id: 16,  stars: 4, text: "Fair price. No overcharging at all. Very trusted place for us." },
-
-  // --- group 5 ---
-  { id: 17,  stars: 5, text: "Too good. Our whole family buys from here only." },
-  { id: 18,  stars: 5, text: "Entire family shops here. No other place for us." },
-  { id: 19,  stars: 5, text: "My whole family trusts this shop. We don't go anywhere else." },
-  { id: 20,  stars: 4, text: "Honest pricing here. No overcharging ever. Trusted shop." },
-
-  // --- group 6 ---
-  { id: 21,  stars: 5, text: "Sir listens first, then suggests. That approach itself is very good." },
-  { id: 22,  stars: 5, text: "Owner always listens before suggesting anything. Good approach." },
-  { id: 23,  stars: 5, text: "Listens to you properly before giving anything. That is what makes this place different." },
-  { id: 24,  stars: 4, text: "Prices are fair and transparent. No hidden costs. Reliable shop." },
-
-  // --- group 7 ---
-  { id: 25,  stars: 5, text: "Original medicines only. No duplicates. I trust this place fully." },
-  { id: 26,  stars: 5, text: "Only authentic medicines here. No fake items. Fully trustworthy." },
-  { id: 27,  stars: 5, text: "Everything here is genuine. No duplicate products. I trust this shop completely." },
-  { id: 28,  stars: 4, text: "Easy to find near Gotri road. Good parking nearby as well." },
-
-  // --- group 8 ---
-  { id: 29,  stars: 5, text: "Nice shop. Staff is polite and helpful every single time." },
-  { id: 30,  stars: 5, text: "Polite and helpful staff always. Nice experience every time." },
-  { id: 31,  stars: 5, text: "Staff is always cooperative and polite. Good place." },
-  { id: 32,  stars: 4, text: "Shop is easy to locate on Gotri road. Parking is also fine." },
-
-  // --- group 9 ---
-  { id: 33,  stars: 5, text: "Everything available here. No need to go anywhere else for homeopathy." },
-  { id: 34,  stars: 5, text: "All homeopathic items available. No need to search elsewhere." },
-  { id: 35,  stars: 5, text: "Good stock. Whatever you need is available here. No other shop needed." },
-  { id: 36,  stars: 4, text: "Convenient location near Gotri. Easy parking and easy to find." },
-
-  // --- group 10 ---
-  { id: 37,  stars: 5, text: "Always open on time. Service is fast. No complaints at all." },
-  { id: 38,  stars: 5, text: "Opens on time every day. Service is quick. No issues." },
-  { id: 39,  stars: 5, text: "Punctual and fast service. Zero complaints from my side." },
-  { id: 40,  stars: 4, text: "Good collection and prices are also reasonable. Happy customer." },
-
-  // --- group 11 ---
-  { id: 41,  stars: 5, text: "Owner is very friendly. Makes you feel comfortable to ask anything." },
-  { id: 42,  stars: 5, text: "Sir is very approachable. You can ask anything without hesitation." },
-  { id: 43,  stars: 5, text: "Very friendly owner. Never felt awkward asking questions here." },
-  { id: 44,  stars: 4, text: "Wide range and prices are decent. Satisfied with the shop." },
-
-  // --- group 12 ---
-  { id: 45,  stars: 5, text: "Small shop but everything is there. Good place overall." },
-  { id: 46,  stars: 5, text: "Compact store but fully stocked. Good overall." },
-  { id: 47,  stars: 5, text: "Looks small from outside but has everything you need. Good place." },
-  { id: 48,  stars: 4, text: "Good variety and reasonable pricing. Happy overall." },
-
-  // --- group 13 ---
-  { id: 49,  stars: 5, text: "Best place for homeopathic medicines in Vadodara. No second thought." },
-  { id: 50,  stars: 5, text: "Top homeopathic shop in Vadodara for me. No doubt about that." },
-  { id: 51,  stars: 5, text: "Best in Vadodara for homeopathy in my opinion. Highly recommend." },
-  { id: 52,  stars: 4, text: "Good service. Medicines are properly stocked. Satisfied with the visit." },
-
-  // --- group 14 ---
-  { id: 53,  stars: 5, text: "Owner gives right medicine without any confusion. Very knowledgeable." },
-  { id: 54,  stars: 5, text: "Sir gives the correct medicine every time. Very knowledgeable person." },
-  { id: 55,  stars: 5, text: "Knowledgeable owner. Gives the right medicine without confusing you." },
-  { id: 56,  stars: 4, text: "Satisfied every time I visit. Good stock and good service." },
-
-  // --- group 15 ---
-  { id: 57,  stars: 5, text: "Quick service and proper guidance both together. Will keep visiting." },
-  { id: 58,  stars: 5, text: "Fast service and good guidance. Both together. Will come again." },
-  { id: 59,  stars: 5, text: "Good guidance and quick service. Best of both. Will keep coming." },
-  { id: 60,  stars: 4, text: "Nice experience. Medicines in stock, service is good. Happy." },
-
-  // --- group 16 ---
-  { id: 61,  stars: 5, text: "Friend told me about this place. Came once and now I keep coming back. Sir gives proper time and never rushes you out." },
-  { id: 62,  stars: 5, text: "My friend recommended this shop. Visited once and became a regular. Owner gives full attention to every customer." },
-  { id: 63,  stars: 5, text: "Came based on a friend's suggestion. Was very impressed. Owner listens properly and never makes you feel hurried." },
-  { id: 64,  stars: 4, text: "Needed a specific medicine not available in regular stores. Found it here without any problem. Good stock maintained." },
-
-  // --- group 17 ---
-  { id: 65,  stars: 5, text: "Came to buy medicines for my mother. Sir explained everything step by step. She was very happy with how patiently he helped." },
-  { id: 66,  stars: 5, text: "Got medicines for my mother from here. Owner was very patient and clear in explaining. She felt comfortable." },
-  { id: 67,  stars: 5, text: "Brought my mother here. Sir took time to explain everything properly to her. Very happy with the experience." },
-  { id: 68,  stars: 4, text: "Could not find a particular medicine elsewhere. This shop had it. Good stock they maintain." },
-
-  // --- group 18 ---
-  { id: 69,  stars: 5, text: "Visited for the first time last month. Was not sure what to expect. Owner explained everything so clearly that I felt confident. Will visit again." },
-  { id: 70,  stars: 5, text: "First visit was last month. The owner was very helpful and made everything clear. Now I will keep coming back." },
-  { id: 71,  stars: 5, text: "Came for the first time recently. Owner explained everything without making me feel confused. Definitely visiting again." },
-  { id: 72,  stars: 4, text: "Specific homeopathic item that regular stores don't keep. Available here without any issue." },
-
-  // --- group 19 ---
-  { id: 73,  stars: 5, text: "My doctor referred me here directly. After visiting I understood why. The owner knows homeopathy very well and it shows." },
-  { id: 74,  stars: 5, text: "Doctor gave me this reference personally. Visited and was fully satisfied. Owner's knowledge is impressive." },
-  { id: 75,  stars: 5, text: "Came on doctor's recommendation. Owner clearly knows his subject. Very trustworthy place." },
-  { id: 76,  stars: 4, text: "Colleague at office told me about this shop. Good location in Gotri. Easy to reach and parking also fine." },
-
-  // --- group 20 ---
-  { id: 77,  stars: 5, text: "Ordered online and delivery was fast. Medicines were packed properly. Good experience even without visiting the shop." },
-  { id: 78,  stars: 5, text: "Got home delivery from here. Came quickly and packing was proper. Happy with online service too." },
-  { id: 79,  stars: 5, text: "Ordered for home delivery. Arrived on time and packed well. Good service." },
-  { id: 80,  stars: 4, text: "Heard about this from a colleague. Good location, easy to find. Parking nearby too." },
-
-  // --- group 21 ---
-  { id: 81,  stars: 5, text: "Went with my father. Owner was very patient with him, answered all his questions properly. Father was very comfortable talking to him." },
-  { id: 82,  stars: 5, text: "Took my father here. Sir was very patient and answered everything he asked. Father was satisfied." },
-  { id: 83,  stars: 5, text: "Brought my father along. Owner spoke to him with patience and care. Father felt very comfortable." },
-  { id: 84,  stars: 4, text: "Office friend recommended this shop. Location is convenient and service is good." },
-
-  // --- group 22 ---
-  { id: 85,  stars: 5, text: "Not just selling medicines. Owner actually explains what each medicine does and why. That kind of service is hard to find." },
-  { id: 86,  stars: 5, text: "Owner does not just sell. He explains what each medicine does. Rare to find this kind of service." },
-  { id: 87,  stars: 5, text: "This place is more than just a shop. Owner genuinely helps you understand what you are taking and why." },
-  { id: 88,  stars: 4, text: "Prices are fair and owner never pushed extra medicines. Gave only what was needed. Honest shop, appreciate that." },
-
-  // --- group 23 ---
-  { id: 89,  stars: 5, text: "Shop is clean and medicines are properly arranged. Easy to browse inside. Good environment overall." },
-  { id: 90,  stars: 5, text: "Well organised inside. Medicines are arranged properly. Clean and pleasant." },
-  { id: 91,  stars: 5, text: "Clean store, everything neatly arranged. Good environment to shop in." },
-  { id: 92,  stars: 4, text: "No upselling here. Gives only what is needed at a fair price. Very honest." },
-
-  // --- group 24 ---
-  { id: 93,  stars: 5, text: "Family doctor specifically told us to visit Mayweed Remedies. After visiting I understood the recommendation completely. Very good place." },
-  { id: 94,  stars: 5, text: "Our family doctor referred us here specifically. Now I know why. Very trustworthy and knowledgeable." },
-  { id: 95,  stars: 5, text: "Doctor told us to come here by name. Visited and fully understood why. Excellent place." },
-  { id: 96,  stars: 4, text: "Owner gives what you need and nothing more. Honest pricing. Appreciated." },
-
-  // --- group 25 ---
-  { id: 97,  stars: 5, text: "Bought medicines for my kids. Sir explained doses very carefully. I felt confident taking them home after the conversation." },
-  { id: 98,  stars: 5, text: "Got medicines for my children. Owner explained dosage carefully and clearly. Felt safe and confident." },
-  { id: 99,  stars: 5, text: "Came for my child's medicines. Sir explained everything including dosage. Very helpful and careful." },
-  { id: 100, stars: 4, text: "Tried other places before. Was not satisfied. Here the quality is much better and owner actually helps you properly." },
-
-  // --- group 26 ---
-  { id: 101, stars: 5, text: "Was passing through Gotri area and decided to stop. Did not regret it at all. Good shop, will visit whenever needed." },
-  { id: 102, stars: 5, text: "Stopped here while passing through Gotri. Was impressed. Will make it a point to visit again." },
-  { id: 103, stars: 5, text: "Popped in while near the area. Glad I did. Good shop and helpful owner." },
-  { id: 104, stars: 4, text: "Visited many shops before finding this one. This is the best in terms of quality and guidance." },
-
-  // --- group 27 ---
-  { id: 105, stars: 5, text: "Came with my wife for some regular items. Owner remembered us from the last visit. That personal touch is very nice." },
-  { id: 106, stars: 5, text: "Owner remembered us from a previous visit. That kind of personal attention is rare." },
-  { id: 107, stars: 5, text: "He remembered us from last time. That personal touch makes a big difference." },
-  { id: 108, stars: 4, text: "After trying several other stores I found this one. No comparison. Quality and service both are better here." },
-
-  // --- group 28 ---
-  { id: 109, stars: 5, text: "Needed to buy in bulk for our use. Good rates for bulk purchase also. Will continue buying from here regularly." },
-  { id: 110, stars: 5, text: "Bought in bulk and the pricing was still fair. Will keep buying from here." },
-  { id: 111, stars: 5, text: "Bulk purchase was easy and the rates were reasonable. Good place for regular buying." },
-  { id: 112, stars: 4, text: "Had a full list of medicines needed. All were available here. Did not have to go anywhere else. Saved a lot of time." },
-
-  // --- group 29 ---
-  { id: 113, stars: 5, text: "Sir spends time understanding your requirement before suggesting anything. No rush at all. That is what I liked most." },
-  { id: 114, stars: 5, text: "Owner takes time with every customer. No rushing. That is exactly what you want from a medical shop." },
-  { id: 115, stars: 5, text: "Patient and thorough. Takes time to understand before suggesting anything. Liked that a lot." },
-  { id: 116, stars: 4, text: "Came with a long list. Everything was available. Saved the time of visiting multiple shops." },
-
-  // --- group 30 ---
-  { id: 117, stars: 5, text: "Was recommended by a neighbour. First visit was very good. Owner was helpful and medicines were exactly what was needed." },
-  { id: 118, stars: 5, text: "Neighbour told me about this shop. First visit went well. Owner is helpful and gives the right medicines." },
-  { id: 119, stars: 5, text: "Came on neighbour's recommendation. Good experience on the first visit itself. Will continue coming." },
-  { id: 120, stars: 4, text: "Had multiple items to buy. All found here in one visit. Very convenient." },
-
-  // --- group 31 ---
-  { id: 121, stars: 5, text: "Coming here since 3 years. Not a single bad experience. Owner knows us by name now." },
-  { id: 122, stars: 5, text: "3 years of visiting this shop. Always good. Owner knows us personally now." },
-  { id: 123, stars: 5, text: "More than 3 years as a customer. Not once was there a bad experience." },
-  { id: 124, stars: 4, text: "Regular customer here. Every visit same experience. Good service and medicines are proper." },
-
-  // --- group 32 ---
-  { id: 125, stars: 5, text: "Our family has been buying from this shop for a long time. Quality is always good. No compromise ever." },
-  { id: 126, stars: 5, text: "Family has been coming here for years. Quality never drops. Very reliable." },
-  { id: 127, stars: 5, text: "Long time family shop for homeopathic medicines. Quality is always consistent." },
-  { id: 128, stars: 4, text: "Come here regularly. Same good experience every time. Consistent service." },
-
-  // --- group 33 ---
-  { id: 129, stars: 5, text: "Been coming since 2022. Owner is always helpful. Will not go to any other store for homeopathy." },
-  { id: 130, stars: 5, text: "Customer since 2022. Always helpful and quality never dropped. No other shop for homeopathy." },
-  { id: 131, stars: 5, text: "Shopping here since 2022. Nothing has changed for the worse. Still the same quality." },
-  { id: 132, stars: 4, text: "Regular visitor. Every visit is good. No change in quality or service." },
-
-  // --- group 34 ---
-  { id: 133, stars: 5, text: "This is my family's regular shop for homeopathy. My parents trust it completely and now I do too." },
-  { id: 134, stars: 5, text: "My parents have been coming here for years. I started coming too and now I trust it completely." },
-  { id: 135, stars: 5, text: "Family shop for homeopathy since years. Parents trusted it and now the whole family does." },
-  { id: 136, stars: 4, text: "My wife and I both buy from here regularly. Never felt overcharged or misguided. Very honest place." },
-
-  // --- group 35 ---
-  { id: 137, stars: 5, text: "Over 1 year as a customer. Not once was I given the wrong medicine. Owner takes his work seriously." },
-  { id: 138, stars: 5, text: "More than a year of coming here. Never received wrong or bad medicine. Owner is very serious about quality." },
-  { id: 139, stars: 5, text: "1 year plus as a regular customer. Not one mistake in all that time. Owner is careful and knowledgeable." },
-  { id: 140, stars: 4, text: "Both me and my wife are regular customers. Never had a bad experience. Honest and reliable." },
-
-  // --- group 36 ---
-  { id: 141, stars: 5, text: "Referred many friends here. All of them are now regulars also. That tells you everything about this place." },
-  { id: 142, stars: 5, text: "Told many people about this shop. All of them became regulars. That says enough." },
-  { id: 143, stars: 5, text: "Recommended this to many friends and family. All happy. No one went back to other stores after visiting here." },
-  { id: 144, stars: 4, text: "Regular buyers for the whole family. Never overcharged. Always honest service." },
-
-  // --- remaining 5-stars (pool exhausted 4-stars) ---
-  { id: 145, stars: 5, text: "Long time customer. The shop has only gotten better over time. Always good stock, always helpful." },
-  { id: 146, stars: 5, text: "Been coming here for a long time. Quality has only improved. Good stock always." },
-  { id: 147, stars: 5, text: "Old customer here. Shop keeps getting better. Stock is always good." },
-  { id: 148, stars: 5, text: "Loyal customer for 2 years. Recommended this shop to my whole building. Everyone is satisfied with it." },
-  { id: 149, stars: 5, text: "2 years of loyalty to this shop. Told many neighbours. All of them happy." },
-  { id: 150, stars: 5, text: "Been coming for 2 years. Told everyone in my society about this place. All of them are now customers." },
+  { id:   1, stars: 5, text: "I had a smooth experience ordering from this website, and the products arrived properly packed with clear labeling and timely delivery updates throughout the process" },
+  { id:   2, stars: 5, text: "The website was easy to navigate, and I found the ordering process simple, convenient, and well organized from product selection to final delivery" },
+  { id:   3, stars: 5, text: "Products were delivered in good condition with secure packaging, and the overall shopping experience felt reliable and professionally managed from beginning to end" },
+  { id:   4, stars: 4, text: "I appreciated the regular delivery updates and clear product information provided on the website, which made the purchasing experience more comfortable and transparent" },
+  { id:   5, stars: 5, text: "The checkout process was simple and fast, and the products arrived safely packed with all items matching the information shown online during purchase" },
+  { id:   6, stars: 5, text: "Customer support responded politely to my questions before ordering, and the complete experience from payment to delivery was handled in a professional manner" },
+  { id:   7, stars: 5, text: "The website offers a good collection of wellness products, and I found the ordering process smooth, convenient, and easy to complete without confusion" },
+  { id:   8, stars: 4, text: "Packaging quality was neat and secure, and the products arrived within the expected timeline without any issues during the delivery process" },
+  { id:   9, stars: 5, text: "I liked how clearly the product details were mentioned on the website, making it easier to understand the options before placing an order" },
+  { id:  10, stars: 5, text: "The order arrived properly sealed and packaged, and the overall process from browsing to delivery felt organized and convenient for online shopping" },
+  { id:  11, stars: 5, text: "Product descriptions were informative and easy to understand, helping me make a better decision while selecting items for my order online" },
+  { id:  12, stars: 4, text: "The delivery process was smooth, and I appreciated receiving timely updates regarding shipping status and estimated arrival throughout the entire experience" },
+  { id:  13, stars: 5, text: "Everything arrived in proper condition with safe packaging, and the complete ordering process felt simple, efficient, and suitable for regular online purchases" },
+  { id:  14, stars: 5, text: "I had a positive experience using the website, especially because the checkout process was fast and customer communication remained clear after ordering" },
+  { id:  15, stars: 5, text: "The packaging looked clean and professional, and the products matched the details mentioned on the website during the ordering process online" },
+  { id:  16, stars: 4, text: "Customer support handled my query politely and provided clear information, making the overall shopping experience more comfortable and reassuring for first-time ordering" },
+  { id:  17, stars: 5, text: "Delivery was completed within the expected timeline, and the products arrived properly packed without any visible damage or missing items in the package" },
+  { id:  18, stars: 5, text: "The website interface was user friendly and easy to browse, allowing me to quickly search products and complete my order conveniently online" },
+  { id:  19, stars: 5, text: "I found the complete process smooth from selecting products to receiving delivery, with proper communication and secure packaging throughout the experience" },
+  { id:  20, stars: 4, text: "Product availability was good, and the website provided enough information to compare options and complete the purchase without unnecessary complications online" },
+  { id:  21, stars: 5, text: "The ordering process was straightforward and simple, and the products arrived properly sealed with packaging that looked hygienic and professionally managed" },
+  { id:  22, stars: 5, text: "I appreciated how smoothly the payment and checkout process worked, along with timely delivery updates after successfully placing my order online" },
+  { id:  23, stars: 5, text: "The website experience was comfortable even on mobile, and I was able to browse products and complete the order without technical issues" },
+  { id:  24, stars: 4, text: "Customer service responded within reasonable time and answered my concerns clearly, helping make the overall shopping experience feel more reliable and organized" },
+  { id:  25, stars: 5, text: "Delivery arrived on time, and the products were packed carefully to ensure everything reached safely without any visible packaging damage during transportation" },
+  { id:  26, stars: 5, text: "I found the product descriptions useful because they clearly explained important details before purchase, making the online shopping process easier and faster" },
+  { id:  27, stars: 5, text: "The complete ordering experience felt smooth and professional, with proper notifications, secure packaging, and a convenient checkout process from start to finish" },
+  { id:  28, stars: 4, text: "Products were delivered exactly as expected, and the website provided enough information to confidently complete the order without confusion or delays" },
+  { id:  29, stars: 5, text: "The overall service experience was satisfactory, especially because customer communication remained clear and delivery updates were shared regularly after ordering online" },
+  { id:  30, stars: 5, text: "Packaging quality looked reliable and secure, and all products arrived in good condition with proper labeling and timely delivery service overall" },
+  { id:  31, stars: 5, text: "I had no issues during the ordering process, and the products were delivered safely with packaging that appeared clean and professionally prepared" },
+  { id:  32, stars: 4, text: "The website layout made browsing products simple and convenient, allowing me to quickly compare items and complete the order without unnecessary steps" },
+  { id:  33, stars: 5, text: "Delivery updates were accurate and helpful throughout the process, making the waiting experience easier and more transparent after placing the online order" },
+  { id:  34, stars: 5, text: "Customer support provided helpful guidance before ordering, and the overall shopping experience felt organized, reliable, and easy for regular online customers" },
+  { id:  35, stars: 5, text: "The products arrived safely packed with secure sealing, and the complete experience from ordering to delivery felt smooth and professionally handled" },
+  { id:  36, stars: 4, text: "I appreciated the simple checkout process and easy payment options available on the website, which made the overall purchase experience more convenient" },
+  { id:  37, stars: 5, text: "Product information was displayed clearly, helping me understand available options before purchase and making the online ordering process feel more comfortable overall" },
+  { id:  38, stars: 5, text: "Delivery timing matched expectations, and the products arrived without damage because the packaging appeared strong and carefully prepared for transportation" },
+  { id:  39, stars: 5, text: "The website worked smoothly during browsing and checkout, and the overall experience from placing the order to receiving delivery was satisfactory" },
+  { id:  40, stars: 4, text: "I found the ordering process quick and convenient, and the products were delivered properly packed with all items included as expected online" },
+  { id:  41, stars: 5, text: "Customer service communication remained polite and professional throughout the process, making the shopping experience feel more reliable and easy to manage online" },
+  { id:  42, stars: 5, text: "The products arrived within the expected delivery timeline, and the packaging ensured everything reached safely without issues during transportation or handling" },
+  { id:  43, stars: 5, text: "I liked the simple website design because it made browsing products easier and allowed me to complete the purchase process without confusion" },
+  { id:  44, stars: 4, text: "Delivery notifications were useful and accurate, helping me stay informed about shipment progress and expected arrival after placing the online order" },
+  { id:  45, stars: 5, text: "Packaging quality looked neat and hygienic, and the products arrived properly sealed with labels matching the details mentioned on the website" },
+  { id:  46, stars: 5, text: "The website experience was smooth overall, especially during checkout and payment, which helped make the online shopping process more convenient and faster" },
+  { id:  47, stars: 5, text: "Product descriptions were detailed enough to understand features and usage information before ordering, making the purchasing decision simpler and more comfortable" },
+  { id:  48, stars: 4, text: "I had a positive experience with customer support because my questions were answered clearly and politely before completing the online purchase process" },
+  { id:  49, stars: 5, text: "Delivery arrived on schedule, and the products were packed securely with everything included properly inside the package without visible transportation damage" },
+  { id:  50, stars: 5, text: "The overall process felt professional and organized from selecting products to receiving delivery updates and final package arrival at my location" },
+  { id:  51, stars: 5, text: "I appreciated the clear communication after placing the order, including payment confirmation, shipping updates, and estimated delivery information throughout the process" },
+  { id:  52, stars: 4, text: "The checkout experience was simple and efficient, and I found the website easy to navigate while comparing different product options online" },
+  { id:  53, stars: 5, text: "Products arrived properly packed and sealed, and the delivery process was completed smoothly without delays or issues during transportation and handling" },
+  { id:  54, stars: 5, text: "Customer support handled my concerns professionally, and the complete shopping experience felt reliable with proper communication from beginning to end online" },
+  { id:  55, stars: 5, text: "I found the website informative because product details and descriptions were clearly written and easy to understand before making a purchase decision" },
+  { id:  56, stars: 4, text: "Delivery timing was reasonable, and the products arrived in good condition with packaging that looked secure and professionally managed throughout transportation" },
+  { id:  57, stars: 5, text: "The ordering process was comfortable and straightforward, making it easy to browse available products and complete payment without unnecessary complications online" },
+  { id:  58, stars: 5, text: "I appreciated the neat packaging and proper labeling because everything arrived organized and exactly as described during the ordering process online" },
+  { id:  59, stars: 5, text: "The website provided a smooth browsing experience, and I was able to quickly search products and place the order without technical difficulties" },
+  { id:  60, stars: 4, text: "Delivery updates were shared regularly after ordering, helping me stay informed about shipment progress and expected package arrival throughout the process" },
+  { id:  61, stars: 5, text: "The products arrived safely packed with proper sealing, and the overall shopping experience felt professional, organized, and suitable for online purchasing needs" },
+  { id:  62, stars: 5, text: "Customer support communication was helpful and polite, making the process more comfortable whenever I had questions regarding products or delivery updates" },
+  { id:  63, stars: 5, text: "The website design made product browsing convenient, and I found it easy to compare options and complete the order within a short time" },
+  { id:  64, stars: 4, text: "Packaging quality appeared reliable and hygienic, and all products arrived in proper condition without any missing or damaged items during delivery" },
+  { id:  65, stars: 5, text: "The payment process worked smoothly, and the website provided clear confirmation and shipping notifications after successfully placing the online order" },
+  { id:  66, stars: 5, text: "I appreciated the detailed product information available online because it helped me better understand the options before selecting items for purchase" },
+  { id:  67, stars: 5, text: "Delivery service was completed efficiently, and the products arrived within the estimated timeline with secure and properly prepared packaging overall" },
+  { id:  68, stars: 4, text: "The entire process from browsing products to receiving delivery updates felt simple, organized, and easy for regular online shopping experiences" },
+  { id:  69, stars: 5, text: "Customer support responded within reasonable time and handled queries politely, making the shopping experience feel more reliable and professionally managed" },
+  { id:  70, stars: 5, text: "The products matched the online descriptions, and the packaging ensured safe delivery without visible issues during transportation or handling throughout the process" },
+  { id:  71, stars: 5, text: "I found the website convenient for online shopping because browsing, ordering, and payment steps were simple and easy to complete quickly" },
+  { id:  72, stars: 4, text: "Delivery updates were accurate and helpful, allowing me to track shipment progress and expected arrival after successfully placing the order online" },
+  { id:  73, stars: 5, text: "The products arrived securely packed, and the overall process from checkout to final delivery felt smooth and professionally coordinated by the team" },
+  { id:  74, stars: 5, text: "Product descriptions were informative and easy to read, helping me understand important details before selecting products for my online order experience" },
+  { id:  75, stars: 5, text: "Customer support communication remained clear and professional, making the overall shopping process more comfortable and trustworthy from start to finish" },
+  { id:  76, stars: 4, text: "The packaging looked clean and secure, and the products arrived properly sealed with everything included exactly as ordered through the website" },
+  { id:  77, stars: 5, text: "I appreciated how quickly the checkout process was completed, along with regular updates provided after payment and shipment confirmation online" },
+  { id:  78, stars: 5, text: "Delivery timing met expectations, and the products arrived safely because the packaging appeared strong and carefully handled during transportation overall" },
+  { id:  79, stars: 5, text: "The website interface was smooth and user friendly, allowing easy browsing and convenient ordering without unnecessary complications or delays online" },
+  { id:  80, stars: 4, text: "The complete shopping experience felt organized and reliable, with proper customer communication and timely delivery updates throughout the ordering process" },
+  { id:  81, stars: 5, text: "I found the ordering process straightforward, and the products arrived properly packaged with labels matching the details provided on the website online" },
+  { id:  82, stars: 5, text: "Delivery service was smooth overall, and the products reached safely within the estimated timeframe mentioned during checkout and payment confirmation" },
+  { id:  83, stars: 5, text: "The website offered enough information to compare products easily, making the online purchasing process simpler and more comfortable for regular customers" },
+  { id:  84, stars: 4, text: "Packaging quality was satisfactory, and the products arrived without damage because everything appeared carefully packed and securely sealed during transportation" },
+  { id:  85, stars: 5, text: "Customer support answered my questions clearly and politely, which made the shopping experience feel more professional and easy to manage online" },
+  { id:  86, stars: 5, text: "The website experience was smooth on both mobile and desktop, allowing convenient browsing and quick completion of the checkout process online" },
+  { id:  87, stars: 5, text: "I appreciated the accurate delivery notifications because they helped me stay informed regarding shipment progress and expected package arrival timelines online" },
+  { id:  88, stars: 4, text: "Products arrived exactly as ordered, and the complete process from browsing to delivery felt simple, efficient, and professionally coordinated throughout" },
+  { id:  89, stars: 5, text: "The ordering process was easy to understand, and I found the website layout convenient for quickly searching and selecting required products online" },
+  { id:  90, stars: 5, text: "Delivery arrived within the expected schedule, and the secure packaging ensured everything reached safely without visible issues or missing items inside" },
+  { id:  91, stars: 5, text: "Product descriptions were detailed and useful, helping me understand product options better before completing the purchase process through the website online" },
+  { id:  92, stars: 4, text: "Customer service communication was prompt and polite, making the overall ordering and delivery experience feel reliable and professionally managed online" },
+  { id:  93, stars: 5, text: "Packaging quality appeared neat and hygienic, and the products arrived properly labeled with all items included according to the online order details" },
+  { id:  94, stars: 5, text: "The checkout process worked smoothly, and I appreciated receiving confirmation and shipment updates regularly after placing the order successfully online" },
+  { id:  95, stars: 5, text: "Delivery service was efficient, and the products reached in good condition because the packaging looked secure and carefully prepared for transportation" },
+  { id:  96, stars: 4, text: "I found the website easy to navigate, making it convenient to browse products and complete the order process without technical complications online" },
+  { id:  97, stars: 5, text: "The complete experience felt organized from selecting products to receiving delivery updates and final package arrival at the expected location successfully" },
+  { id:  98, stars: 5, text: "Customer support handled queries professionally and provided clear guidance, helping make the online shopping experience more comfortable and trustworthy overall" },
+  { id:  99, stars: 5, text: "Products arrived safely packed and properly sealed, and the ordering process remained smooth and straightforward from beginning to final delivery online" },
+  { id: 100, stars: 4, text: "I appreciated the timely communication throughout the process because it helped make the overall shopping and delivery experience more transparent and convenient" },
+  { id: 101, stars: 5, text: "I usually avoid ordering wellness products online, but this experience was surprisingly smooth, with secure packaging, timely delivery, and clear communication throughout the process" },
+  { id: 102, stars: 5, text: "The website made it easy to compare products, read descriptions, and place an order quickly without feeling confused by unnecessary steps or complicated navigation" },
+  { id: 103, stars: 5, text: "I appreciated how professionally the package was prepared because everything arrived neatly packed, properly sealed, and exactly as shown during the ordering process online" },
+  { id: 104, stars: 4, text: "The checkout process was simple even for someone ordering for the first time, and delivery updates helped keep the experience comfortable and stress free" },
+  { id: 105, stars: 5, text: "I found the website informative and easy to use, especially because product details were clearly explained before making the final purchase decision online" },
+  { id: 106, stars: 5, text: "The products arrived within the promised timeframe, and the packaging quality looked secure enough to protect everything properly during transportation and handling" },
+  { id: 107, stars: 5, text: "Customer support was polite and responsive whenever I had questions regarding product availability, delivery timing, and the ordering process through the website" },
+  { id: 108, stars: 4, text: "I liked the clean website layout because browsing through categories and selecting products felt smooth, organized, and easy to manage on mobile" },
+  { id: 109, stars: 5, text: "The entire shopping experience felt reliable from payment confirmation to final delivery, with regular updates shared throughout the process after placing the order" },
+  { id: 110, stars: 5, text: "Products were delivered in excellent condition with proper sealing and secure packaging, which made the overall experience feel professionally handled from beginning to end" },
+  { id: 111, stars: 5, text: "The website offered enough details about every product, helping me understand options better before completing my order through the online checkout process" },
+  { id: 112, stars: 4, text: "Delivery updates were timely and accurate, allowing me to stay informed about shipment progress and expected arrival without needing additional follow up" },
+  { id: 113, stars: 5, text: "Packaging quality was neat and organized, and the products arrived safely packed with labels matching the details provided during online ordering" },
+  { id: 114, stars: 5, text: "I appreciated how smooth the ordering experience was because the website worked quickly and the checkout process did not take much time" },
+  { id: 115, stars: 5, text: "Customer support answered my questions clearly and professionally, making the complete shopping experience feel more trustworthy and well coordinated overall" },
+  { id: 116, stars: 4, text: "The products matched the information available online, and delivery was completed within the expected timeline without any issues during transportation or handling" },
+  { id: 117, stars: 5, text: "I found the ordering process simple and convenient, especially because payment confirmation and shipping updates were shared immediately after placing the order" },
+  { id: 118, stars: 5, text: "The website experience was comfortable and user friendly, making it easy to browse products and complete the purchase process without unnecessary confusion" },
+  { id: 119, stars: 5, text: "Products arrived properly packed and in good condition, and the entire process from checkout to delivery felt smooth and professionally managed online" },
+  { id: 120, stars: 4, text: "Delivery timing was reasonable, and I appreciated receiving regular notifications regarding shipment progress and estimated package arrival throughout the process" },
+  { id: 121, stars: 5, text: "The overall shopping experience was pleasant because the website was easy to use and customer communication remained clear after placing the order online" },
+  { id: 122, stars: 5, text: "I liked how securely the products were packaged because everything arrived safely without visible damage or missing items inside the shipment package" },
+  { id: 123, stars: 5, text: "The checkout process worked smoothly, and I was able to complete the purchase quickly without technical issues or unnecessary delays on the website" },
+  { id: 124, stars: 4, text: "Product descriptions were detailed enough to help me understand available options before selecting the items required for my online purchase experience" },
+  { id: 125, stars: 5, text: "Delivery service was efficient, and the products arrived on time with proper packaging that looked clean, hygienic, and professionally prepared overall" },
+  { id: 126, stars: 5, text: "Customer support handled my concerns politely and responded within reasonable time, making the ordering process feel more comfortable and reliable online" },
+  { id: 127, stars: 5, text: "The website design was simple and organized, allowing easy browsing across categories and convenient product selection without confusion during shopping" },
+  { id: 128, stars: 4, text: "I appreciated the secure packaging and timely delivery because everything reached safely and exactly as expected from the online product descriptions provided" },
+  { id: 129, stars: 5, text: "The entire process felt professional from browsing products to receiving delivery updates and final package arrival at my location within the estimated timeframe" },
+  { id: 130, stars: 5, text: "Products arrived neatly packed and properly labeled, and the complete ordering experience remained smooth and convenient from beginning to final delivery online" },
+  { id: 131, stars: 5, text: "I found the website helpful because product information was clearly presented, making it easier to compare options before completing the online purchase process" },
+  { id: 132, stars: 4, text: "Delivery notifications were useful and accurate, helping me stay updated about shipment movement and expected package arrival after placing the order online" },
+  { id: 133, stars: 5, text: "The products were packed securely and arrived in good condition, showing proper attention to packaging quality and safe transportation during delivery" },
+  { id: 134, stars: 5, text: "Customer support communication remained professional throughout the process, helping create a more reliable and organized shopping experience overall online" },
+  { id: 135, stars: 5, text: "The ordering process was fast and convenient, and I appreciated how quickly payment confirmation and shipping information were shared after checkout" },
+  { id: 136, stars: 4, text: "Website navigation felt smooth and responsive, allowing easy browsing and product selection without unnecessary loading issues or technical complications online" },
+  { id: 137, stars: 5, text: "Delivery arrived within the expected timeline, and the packaging ensured products reached safely without visible damage or missing contents during transportation" },
+  { id: 138, stars: 5, text: "I liked the organized shopping experience because everything from product browsing to final delivery updates felt properly coordinated and professionally managed" },
+  { id: 139, stars: 5, text: "Product descriptions matched the actual items received, and the complete process from ordering to delivery was handled smoothly without unnecessary delays" },
+  { id: 140, stars: 4, text: "The website experience was comfortable and straightforward, making it easy for first-time users to browse products and complete purchases online successfully" },
+  { id: 141, stars: 5, text: "Customer support provided clear guidance whenever needed, and the complete shopping experience felt trustworthy with proper communication throughout the process" },
+  { id: 142, stars: 5, text: "Packaging quality appeared strong and hygienic, helping ensure the products arrived safely packed and properly protected during transportation and delivery handling" },
+  { id: 143, stars: 5, text: "The delivery process was smooth overall, and I appreciated receiving shipment updates regularly after completing the online order through the website" },
+  { id: 144, stars: 4, text: "Products arrived properly sealed and exactly as described online, making the entire shopping experience feel reliable and professionally organized throughout" },
+  { id: 145, stars: 5, text: "The website worked efficiently during browsing and checkout, and I found the ordering process convenient for purchasing products online without confusion" },
+  { id: 146, stars: 5, text: "I appreciated the timely customer communication because updates regarding order confirmation, shipping, and expected delivery were shared consistently throughout the experience" },
+  { id: 147, stars: 5, text: "The products were delivered in good condition with clean packaging, and the overall process from payment to arrival felt organized and convenient online" },
+  { id: 148, stars: 4, text: "Delivery timing met expectations, and the secure packaging helped ensure all products reached safely without visible issues during transportation or handling overall" },
+  { id: 149, stars: 5, text: "Customer service was responsive and polite, helping answer questions clearly and making the online ordering experience feel more professional and reliable" },
+  { id: 150, stars: 5, text: "I found the shopping process smooth because the website was easy to navigate and product categories were organized clearly for convenient browsing online" },
+  { id: 151, stars: 5, text: "The products arrived within the estimated delivery timeframe, and packaging quality looked secure enough to protect everything properly during transportation" },
+  { id: 152, stars: 4, text: "Product details were informative and easy to understand, helping simplify the purchase decision before placing the order through the website online" },
+  { id: 153, stars: 5, text: "I appreciated the simple checkout process because payment, confirmation, and shipment updates were all handled smoothly without unnecessary complications online" },
+  { id: 154, stars: 5, text: "The website experience felt organized and user friendly, making it easy to browse available products and complete the order comfortably online" },
+  { id: 155, stars: 5, text: "Delivery notifications were helpful and accurate, allowing me to track the shipment properly until the package finally arrived at my location safely" },
+  { id: 156, stars: 4, text: "Customer support communication was professional and timely, helping make the overall ordering and delivery process more comfortable and trustworthy online" },
+  { id: 157, stars: 5, text: "Packaging looked neat and carefully prepared, and the products arrived safely packed with labels matching the details shown during online ordering" },
+  { id: 158, stars: 5, text: "The complete shopping experience was smooth from browsing products to receiving delivery updates and final package arrival within the promised timeframe" },
+  { id: 159, stars: 5, text: "I liked how quickly the order was processed because confirmation and shipment details were shared shortly after successfully completing payment online" },
+  { id: 160, stars: 4, text: "Products arrived in proper condition with secure packaging, and the overall delivery process was completed efficiently without any noticeable complications" },
+  { id: 161, stars: 5, text: "The website layout was clean and easy to understand, making browsing products and placing orders much more convenient for regular online shopping" },
+  { id: 162, stars: 5, text: "Delivery service was handled professionally, and I appreciated receiving timely updates regarding package movement and expected arrival throughout the process" },
+  { id: 163, stars: 5, text: "Customer support answered questions politely and clearly, helping make the complete shopping experience feel organized and reliable from beginning to end" },
+  { id: 164, stars: 4, text: "Packaging quality appeared strong and hygienic, ensuring products arrived safely without visible damage or missing contents during transportation and handling overall" },
+  { id: 165, stars: 5, text: "I found the ordering process straightforward because product details, checkout steps, and payment confirmation were all clearly explained on the website" },
+  { id: 166, stars: 5, text: "The products matched the descriptions shown online, and delivery was completed within the expected timeline with proper communication throughout the experience" },
+  { id: 167, stars: 5, text: "The website worked smoothly during browsing and payment, allowing convenient ordering without unnecessary technical issues or delays throughout the process online" },
+  { id: 168, stars: 4, text: "I appreciated how carefully the package was prepared because everything arrived properly sealed, organized, and exactly as expected after ordering online" },
+  { id: 169, stars: 5, text: "Delivery updates were accurate and useful, helping me stay informed about shipment progress and expected package arrival at every stage online" },
+  { id: 170, stars: 5, text: "Customer support remained responsive whenever needed, and the complete experience from ordering to delivery felt professionally coordinated and easy to manage online" },
+  { id: 171, stars: 5, text: "The shopping experience felt convenient overall because the website navigation was smooth and product categories were clearly organized for browsing online" },
+  { id: 172, stars: 4, text: "Products arrived safely packed with secure sealing, and the delivery process was completed without delays or issues during transportation and handling overall" },
+  { id: 173, stars: 5, text: "I appreciated the informative product descriptions because they helped simplify the purchasing decision before completing checkout through the website online" },
+  { id: 174, stars: 5, text: "The ordering process was efficient and easy to complete, especially with quick payment confirmation and regular shipment updates provided after checkout" },
+  { id: 175, stars: 5, text: "Packaging quality looked reliable and clean, ensuring the products arrived safely and in good condition throughout the transportation and delivery process" },
+  { id: 176, stars: 4, text: "Customer service communication was clear and professional, making the complete shopping experience feel more trustworthy and organized from start to finish" },
+  { id: 177, stars: 5, text: "The website experience was comfortable on mobile devices, allowing convenient browsing and fast product selection without unnecessary technical complications online" },
+  { id: 178, stars: 5, text: "Delivery timing was reasonable, and I appreciated receiving notifications regularly regarding package movement and expected arrival after placing the order" },
+  { id: 179, stars: 5, text: "Products were delivered exactly as described online, and the entire process from browsing to final delivery felt smooth and professionally managed overall" },
+  { id: 180, stars: 4, text: "I liked the organized checkout process because payment, confirmation, and delivery updates were all shared clearly throughout the ordering experience online" },
+  { id: 181, stars: 5, text: "Packaging appeared secure and carefully prepared, helping ensure all products arrived safely without visible damage during transportation and delivery handling overall" },
+  { id: 182, stars: 5, text: "Customer support handled my concerns politely and provided useful information, making the overall shopping process feel more comfortable and reliable online" },
+  { id: 183, stars: 5, text: "The website layout made browsing easy, and I was able to compare products and complete my purchase quickly without unnecessary complications" },
+  { id: 184, stars: 4, text: "Delivery updates were timely and accurate, helping me track shipment progress properly until the package finally arrived at the expected location safely" },
+  { id: 185, stars: 5, text: "Products arrived neatly packed with proper labeling, and the complete ordering experience remained smooth from checkout to final package delivery online" },
+  { id: 186, stars: 5, text: "I appreciated the quick processing time because order confirmation and shipment updates were shared shortly after completing payment through the website online" },
+  { id: 187, stars: 5, text: "The shopping experience felt professional overall because customer communication remained clear and delivery service was completed within the expected timeframe" },
+  { id: 188, stars: 4, text: "Packaging quality looked hygienic and secure, ensuring products arrived in good condition without visible issues during transportation or handling throughout delivery" },
+  { id: 189, stars: 5, text: "The website worked efficiently during browsing and checkout, allowing convenient online shopping without technical problems or unnecessary waiting during the process" },
+  { id: 190, stars: 5, text: "Customer support communication remained polite and responsive, helping make the complete experience feel organized and professionally coordinated from beginning to end" },
+  { id: 191, stars: 5, text: "I found the ordering process simple because product details, payment steps, and delivery updates were all clearly explained on the website online" },
+  { id: 192, stars: 4, text: "Delivery arrived within the estimated schedule, and the products were packed securely with proper sealing to ensure safe transportation and handling overall" },
+  { id: 193, stars: 5, text: "The website experience was smooth and user friendly, making it easy to search products and complete the online purchase process comfortably" },
+  { id: 194, stars: 5, text: "I appreciated the regular shipment updates because they helped keep me informed about package movement and expected arrival after placing the order online" },
+  { id: 195, stars: 5, text: "Packaging quality appeared reliable and professionally managed, ensuring products reached safely without damage or missing items during delivery transportation overall" },
+  { id: 196, stars: 4, text: "Customer support answered queries clearly and politely, making the overall shopping experience feel more trustworthy and easier to manage online successfully" },
+  { id: 197, stars: 5, text: "Products matched the online descriptions accurately, and the complete process from checkout to final delivery felt smooth and professionally coordinated overall" },
+  { id: 198, stars: 5, text: "The website layout was clean and organized, allowing quick browsing across product categories and convenient completion of the checkout process online" },
+  { id: 199, stars: 5, text: "Delivery service was handled efficiently, and I appreciated receiving timely notifications regarding order confirmation, shipment progress, and expected package arrival" },
+  { id: 200, stars: 4, text: "The overall shopping experience was comfortable and reliable, with secure packaging, smooth website navigation, and professional customer communication throughout the entire process" },
 ];

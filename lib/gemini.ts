@@ -7,16 +7,16 @@ export type RawAiReview = {
 
 const AI_COUNT = 15;
 
-const PROMPT = `You are generating Google reviews for Mayweed Remedies, a homeopathic pharmacy in the Gotri area of Vadodara, Gujarat, India.
+const PROMPT = `You are generating Google reviews for Mayweed Remedies, an online wellness and remedy products store.
 
-About the shop:
-- Small, clean, well-stocked homeopathic medicine store near Gotri road, Vadodara
-- Owner is very knowledgeable, listens carefully before suggesting medicines
-- Fair prices, no upselling, honest service
-- Many loyal customers who bring their whole families
-- Fast service, medicines always in stock
+About the store:
+- Sells wellness, health, and remedy products online
+- Easy-to-use website with clear product descriptions and smooth checkout
+- Reliable packaging — products arrive properly sealed and undamaged
+- Timely delivery with status updates throughout the process
+- Responsive customer support that handles queries politely and clearly
 
-Write exactly ${AI_COUNT} Google reviews in natural Indian English, as if real customers wrote them. Each review must be unique — different sentiment, different angle, different length. Return only a JSON array:
+Write exactly ${AI_COUNT} Google reviews as if real customers wrote them after shopping online. Each review must be unique — different angle, different focus, different length. Return only a JSON array:
 [
   { "stars": 5, "text": "..." },
   { "stars": 5, "text": "..." },
@@ -25,13 +25,12 @@ Write exactly ${AI_COUNT} Google reviews in natural Indian English, as if real c
 ]
 
 Rules:
-- Natural Indian English (how Indians actually type in English)
-- "Sir" used naturally for the owner
-- Short sentences, no flowery language
-- Mention Gotri area, Vadodara, family, medicines, service — spread across reviews, not every one
-- No em dashes, no AI vocabulary (seamless, pivotal, delve, heartwarming, etc.)
+- Standard clear English — complete sentences, no casual slang
+- Focus on: website experience, ordering process, packaging quality, delivery, product descriptions, customer support — spread across reviews, not every review covers all topics
+- No em dashes, no AI vocabulary (seamless, pivotal, delve, heartwarming, transformative, etc.)
 - Stars must be 4 or 5 only — roughly 12 fives and 3 fours
-- Mix of lengths: some 1 sentence, some 2-3 sentences, some 3-4 sentences
+- Each review is 1-2 sentences; occasionally 3 sentences for variety
+- Do not repeat the same phrases or sentence structures across reviews
 
 Return only the JSON array, no explanation, no markdown code block.`;
 

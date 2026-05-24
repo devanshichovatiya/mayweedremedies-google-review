@@ -5,8 +5,8 @@ const CACHED_KEY = "reviews:cached";
 const USED_TEXTS_KEY = "reviews:used_texts";
 const NEXT_ID_KEY = "reviews:next_id";
 
-// IDs 1–150 are reserved for static variants. AI reviews start at 151.
-const AI_ID_START = 150;
+// IDs 1–200 are reserved for static variants. AI reviews start at 201.
+const AI_ID_START = 200;
 
 export type CachedReview = ResolvedReview & { generatedAt: string };
 
