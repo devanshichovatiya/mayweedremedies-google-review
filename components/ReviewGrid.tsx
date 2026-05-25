@@ -1,25 +1,41 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import ReviewCard from "./ReviewCard";
-import type { Review, ResolvedReview } from "@/data/reviews";
-import { resolveVariant } from "@/data/reviews";
+import type { ResolvedReview } from "@/data/reviews";
 
 const SHOW_COUNT = 4;
 
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
+type Props = {
+  reviews: ResolvedReview[];
+  fetchError?: boolean;
+};
 
-export default function ReviewGrid({ reviews }: { reviews: Review[] }) {
+export default function ReviewGrid({ reviews, fetchError }: Props) {
   const [shown, setShown] = useState<ResolvedReview[]>([]);
   const [animating, setAnimating] = useState(false);
-  const deckRef = useRef<Review[]>([]);
+
+  const deckRef = useRef<ResolvedReview[]>([]);
 
   useEffect(() => {
-    const shuffled = shuffle(reviews);
-    setShown(shuffled.slice(0, SHOW_COUNT).map(resolveVariant));
-    deckRef.current = shuffled.slice(SHOW_COUNT);
+    // AI reviews (id >= 151): largest ID first (newest generated shown first).
+    // Static reviews (id < 151): smallest ID first (already interleaved by star rating).
+    const aiPool = reviews
+      .filter((r) => r.id >= 151)
+      .sort((a, b) => a.id - b.id);
+    const staticPool = reviews.filter((r) => r.id < 151);
+
+    const staticNeeded = Math.max(0, SHOW_COUNT - aiPool.length);
+    const initial = [...aiPool.slice(0, SHOW_COUNT), ...staticPool.slice(0, staticNeeded)];
+
+    const seen = new Set<number>();
+    setShown(initial.filter((r) => {
+      if (seen.has(r.id)) return false;
+      seen.add(r.id);
+      return true;
+    }));
+
+    deckRef.current = [...aiPool.slice(SHOW_COUNT), ...staticPool.slice(staticNeeded)];
   }, [reviews]);
 
   const handleShuffle = useCallback(() => {
@@ -28,13 +44,14 @@ export default function ReviewGrid({ reviews }: { reviews: Review[] }) {
       setShown((prev) => {
         let deck = deckRef.current;
 
+        // When deck runs out, cycle back through static reviews (AI exhausted by then).
         if (deck.length < SHOW_COUNT) {
-          const visibleIds = new Set(prev.map((r) => r.id));
-          const refill = shuffle(reviews.filter((r) => !visibleIds.has(r.id)));
-          deck = [...deck, ...refill];
+          const shownIds = new Set(prev.map((r) => r.id));
+          const remaining = reviews.filter((r) => r.id < 151 && !shownIds.has(r.id));
+          deck = [...deck, ...remaining];
         }
 
-        const next = deck.slice(0, SHOW_COUNT).map(resolveVariant);
+        const next = deck.slice(0, SHOW_COUNT);
         deckRef.current = deck.slice(SHOW_COUNT);
         return next;
       });
@@ -46,6 +63,12 @@ export default function ReviewGrid({ reviews }: { reviews: Review[] }) {
 
   return (
     <div>
+      {fetchError && (
+        <p className="text-xs text-amber-600 text-center mb-3">
+          Could not load AI reviews — showing static reviews only.
+        </p>
+      )}
+
       <div
         className={`grid grid-cols-1 sm:grid-cols-2 gap-4 transition-opacity duration-300 ${
           animating ? "opacity-0" : "opacity-100"

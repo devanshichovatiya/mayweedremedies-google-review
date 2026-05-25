@@ -7,23 +7,32 @@ import { GOOGLE_REVIEW_URL } from "@/data/reviews";
 export default function ReviewCard({ review }: { review: ResolvedReview }) {
   const [status, setStatus] = useState<"idle" | "copied">("idle");
 
-  async function handleCopy() {
-    // Open immediately within the user gesture — setTimeout breaks mobile popup policy
-    window.open(GOOGLE_REVIEW_URL, "_blank");
+  function handleCopy() {
+    // 1. Copy synchronously via execCommand — no await, no focus loss, works before window.open.
+    const el = document.createElement("textarea");
+    el.value = review.text;
+    el.style.cssText = "position:fixed;opacity:0;pointer-events:none;";
+    document.body.appendChild(el);
+    el.focus();
+    el.select();
+    try { document.execCommand("copy"); } catch { /* ignore */ }
+    document.body.removeChild(el);
 
-    try {
-      await navigator.clipboard.writeText(review.text);
-    } catch {
-      const el = document.createElement("textarea");
-      el.value = review.text;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-    }
+    // 2. Modern clipboard API as a silent async upgrade (best-effort, no await).
+    navigator.clipboard?.writeText(review.text).catch(() => {});
+
+    // 3. Open Google Maps — still within the click gesture since no await happened above.
+    window.open(GOOGLE_REVIEW_URL, "_blank");
 
     setStatus("copied");
     setTimeout(() => setStatus("idle"), 1500);
+
+    // 4. Record as used — fire-and-forget.
+    fetch("/api/reviews/used", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: review.id, text: review.text }),
+    }).catch(() => {});
   }
 
   return (

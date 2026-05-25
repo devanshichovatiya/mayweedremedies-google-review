@@ -1,7 +1,36 @@
 import ReviewGrid from "@/components/ReviewGrid";
-import { reviews } from "@/data/reviews";
+import { getAllStaticReviews } from "@/data/reviews";
+import { getCachedReviews } from "@/lib/reviews-cache";
+import type { ResolvedReview } from "@/data/reviews";
 
-export default function Page() {
+// Always fetch fresh — Redis reads are fast and data changes as reviews get marked used.
+export const dynamic = "force-dynamic";
+
+export default async function Page() {
+  let cachedAi: ResolvedReview[] = [];
+  let fetchError = false;
+  const redisConfigured =
+    !!process.env.UPSTASH_REDIS_REST_URL && !!process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (redisConfigured) {
+    try {
+      cachedAi = await getCachedReviews();
+    } catch {
+      fetchError = true;
+    }
+  }
+
+  const staticReviews = getAllStaticReviews();
+
+  // AI reviews first (id ≥ 151), then static (id 1–150).
+  const merged = [...cachedAi, ...staticReviews];
+  const seenIds = new Set<number>();
+  const pool = merged.filter((r) => {
+    if (seenIds.has(r.id)) return false;
+    seenIds.add(r.id);
+    return true;
+  });
+  const isEmpty = pool.length === 0;
+
   return (
     <main className="min-h-screen bg-white">
       {/* Header */}
@@ -23,23 +52,19 @@ export default function Page() {
             🙏 Please leave us a Google review — takes 30 seconds!
           </p>
 
-          {/* 3 steps in a single row */}
           <div className="grid grid-cols-3 gap-3">
-            {/* Step 1 */}
             <div className="bg-white/15 rounded-xl p-3 flex flex-col items-center gap-2 text-center">
               <span className="text-4xl leading-none">👇</span>
               <div className="bg-white text-emerald-700 font-black text-xs rounded-full w-5 h-5 flex items-center justify-center">1</div>
               <p className="text-white text-xs font-semibold leading-tight">Pick any review</p>
             </div>
 
-            {/* Step 2 (merged) */}
             <div className="bg-white/15 rounded-xl p-3 flex flex-col items-center gap-2 text-center">
               <span className="text-4xl leading-none">📋</span>
               <div className="bg-white text-emerald-700 font-black text-xs rounded-full w-5 h-5 flex items-center justify-center">2</div>
               <p className="text-white text-xs font-semibold leading-tight">Tap Copy — Google opens</p>
             </div>
 
-            {/* Step 3 */}
             <div className="bg-yellow-400/90 rounded-xl p-3 flex flex-col items-center gap-2 text-center">
               <span className="text-4xl leading-none">📝</span>
               <div className="bg-emerald-700 text-white font-black text-xs rounded-full w-5 h-5 flex items-center justify-center">3</div>
@@ -48,10 +73,15 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Review grid */}
-        <ReviewGrid reviews={reviews} />
+        {isEmpty ? (
+          <div className="text-center py-16 px-4">
+            <p className="text-gray-500 text-base">All reviews have been used up.</p>
+            <p className="text-gray-400 text-sm mt-2">Please ask the admin to generate more reviews.</p>
+          </div>
+        ) : (
+          <ReviewGrid reviews={pool} fetchError={fetchError} />
+        )}
 
-        {/* Footer */}
         <p className="text-center text-gray-400 text-xs mt-10 pb-8">
           Thank you for your support. Your review means a lot to us. 💚
         </p>
